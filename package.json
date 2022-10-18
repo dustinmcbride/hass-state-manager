@@ -1,0 +1,14 @@
+{
+  "name": "hass-state-machine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "make.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yaml": "^2.1.3"
+  }
+}
