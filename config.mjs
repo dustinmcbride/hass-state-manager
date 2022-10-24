@@ -14,6 +14,14 @@ export const homeStateMap = {
   afternoon: { name: "Afternoon", script: "home_state_afternoon" },
   earlyEvening: { name: "Early Evening", script: "home_state_early_evening" },
   lateEvening: { name: "Late Evening", script: "home_state_late_evening" },
+  dinner: { name: "Dinner", script: "home_state_dinner" },
+  dishes: { name: "Dishes", script: "home_state_dishes" },
+  getReadyForBed: {
+    name: "Get Ready For Bed",
+    script: "home_state_get_ready_for_bed",
+  },
+  goToSleep: { name: "Go to Sleep", script: "home_state_go_to_sleep" },
+  sleeping: { name: "Sleeping", script: "home_state_sleeping" },
 };
 
 const earlyEveningTrigger = {
@@ -24,35 +32,54 @@ const earlyEveningTrigger = {
   below: 4.4,
 };
 
+const sharedStates = {
+  dinner: { trigger: null },
+  dishes: { trigger: null },
+  getReadyForBed: { trigger: null },
+  goToSleep: { trigger: null },
+  sleeping: { trigger: null },
+};
+
 export const dayTypeConfig = {
-  condition_select: "day_type",
-  update_select: "home_state",
   dayTypes: {
-    work: [
-      { id: "morning", trigger: "input_datetime.workday_morning" },
-      { id: "midMorning", trigger: "09:30:00" },
-      { id: "lunch", trigger: "11:50:00" },
-      { id: "afternoon", trigger: "12:45:00" },
-      { id: "earlyEvening", trigger: earlyEveningTrigger },
-      { id: "lateEvening", trigger: "20:30:00" },
-    ],
-    nonWork: [
-      { id: "morning", trigger: "input_datetime.non_workday" },
-      { id: "day", trigger: "09:30:00" },
-      { id: "earlyEvening", trigger: earlyEveningTrigger },
-      { id: "lateEvening", trigger: "20:30:00" },
-    ],
-    skiHike: [
-      { id: "morning", trigger: "input_datetime.early_morning" },
-      { id: "day", trigger: "09:30:00" },
-      { id: "earlyEvening", trigger: earlyEveningTrigger },
-      { id: "lateEvening", trigger: "20:30:00" },
-    ],
-    houseSitter: [
-      { id: "morning", trigger: "input_datetime.non_workday" },
-      { id: "day", trigger: "09:30:00" },
-      { id: "earlyEvening", trigger: earlyEveningTrigger },
-      { id: "lateEvening", trigger: "20:30:00" },
-    ],
+    work: {
+      ...sharedStates,
+      morning: { trigger: "input_datetime.workday_morning" },
+      midMorning: { trigger: "09:30:00" },
+      lunch: { trigger: "11:50:00" },
+      afternoon: { trigger: "12:45:00" },
+      earlyEvening: { trigger: earlyEveningTrigger },
+      lateEvening: { trigger: "20:30:00" },
+    },
+    nonWork: {
+      ...sharedStates,
+      morning: { trigger: "input_datetime.non_workday" },
+      day: { trigger: "09:30:00" },
+      earlyEvening: { trigger: earlyEveningTrigger },
+      lateEvening: { trigger: "20:30:00" },
+    },
+    skiHike: {
+      ...sharedStates,
+      morning: { trigger: "input_datetime.early_morning" },
+      day: { trigger: "09:30:00" },
+      earlyEvening: { trigger: earlyEveningTrigger },
+      lateEvening: { trigger: "20:30:00" },
+    },
+    houseSitter: {
+      ...sharedStates,
+      morning: { trigger: "input_datetime.non_workday" },
+      day: { trigger: "09:30:00" },
+      earlyEvening: { trigger: earlyEveningTrigger },
+      lateEvening: { trigger: "20:30:00" },
+      goToSleep: { trigger: "0:45:00" },
+    },
+    vacation: {
+      ...sharedStates,
+      morning: { trigger: "input_datetime.non_workday" },
+      day: { trigger: "09:30:00" },
+      earlyEvening: { trigger: earlyEveningTrigger },
+      lateEvening: { trigger: "20:30:00" },
+      goToSleep: { trigger: "11:30:00" },
+    },
   },
 };

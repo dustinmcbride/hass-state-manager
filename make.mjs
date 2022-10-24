@@ -42,8 +42,15 @@ function makeStateUpdater(dayTypeConfig) {
 
   Object.keys(dayTypeConfig.dayTypes).forEach((dayType) => {
     // Triggers
-    dayTypeConfig.dayTypes[dayType].forEach((stateChange) => {
-      const newTrigger = makeTrigger(stateChange);
+    Object.keys(dayTypeConfig.dayTypes[dayType]).forEach((stateChangeId) => {
+      const stateChangeConfig = {
+        id: stateChangeId,
+        ...dayTypeConfig.dayTypes[dayType][stateChangeId],
+      };
+
+      if (!stateChangeConfig.trigger) return;
+
+      const newTrigger = makeTrigger(stateChangeConfig);
 
       const found = results.trigger.find(
         (trigger) => trigger.id === newTrigger.id
@@ -65,23 +72,34 @@ function makeStateUpdater(dayTypeConfig) {
       ],
       then: [
         {
-          choose: dayTypeConfig.dayTypes[dayType].map((stateChange) => ({
-            conditions: [
-              { condition: "trigger", id: makeTriggerId(stateChange) },
-            ],
+          choose: Object.keys(dayTypeConfig.dayTypes[dayType])
+            .map((stateChangeId) => {
+              const stateChange = {
+                id: stateChangeId,
+                ...dayTypeConfig.dayTypes[dayType][stateChangeId],
+              };
 
-            sequence: [
-              {
-                service: "input_select.select_option",
-                data: {
-                  option: homeStateMap[stateChange.id].name,
-                },
-                target: {
-                  entity_id: "input_select.home_state",
-                },
-              },
-            ],
-          })),
+              if (!stateChange.trigger) return null;
+
+              return {
+                conditions: [
+                  { condition: "trigger", id: makeTriggerId(stateChange) },
+                ],
+
+                sequence: [
+                  {
+                    service: "input_select.select_option",
+                    data: {
+                      option: homeStateMap[stateChange.id].name,
+                    },
+                    target: {
+                      entity_id: "input_select.home_state",
+                    },
+                  },
+                ],
+              };
+            })
+            .filter((i) => i != null),
         },
       ],
     });
@@ -107,7 +125,7 @@ const makeStateListener = () => {
     action: [],
   };
 
-  Object.keys(dayTypeConfig.dayTypes).forEach((dayType, index) => {
+  Object.keys(dayTypeConfig.dayTypes).forEach((dayType) => {
     const action = {
       if: [
         {
@@ -118,18 +136,26 @@ const makeStateListener = () => {
       ],
       then: [
         {
-          choose: dayTypeConfig.dayTypes[dayType].map((stateChange) => ({
-            conditions: [
-              {
-                condition: "state",
-                entity_id: "input_select.home_state",
-                state: homeStateMap[stateChange.id].name,
-              },
-            ],
-            sequence: [
-              { service: `script.${homeStateMap[stateChange.id].script}` },
-            ],
-          })),
+          choose: Object.keys(dayTypeConfig.dayTypes[dayType]).map(
+            (stateChangeId) => {
+              const stateChange = {
+                id: stateChangeId,
+                ...dayTypeConfig.dayTypes[dayType][stateChangeId],
+              };
+              return {
+                conditions: [
+                  {
+                    condition: "state",
+                    entity_id: "input_select.home_state",
+                    state: homeStateMap[stateChange.id].name,
+                  },
+                ],
+                sequence: [
+                  { service: `script.${homeStateMap[stateChange.id].script}` },
+                ],
+              };
+            }
+          ),
         },
       ],
     };
@@ -140,7 +166,7 @@ const makeStateListener = () => {
   result.action.push({
     service: "notify.mobile_app_dustin_iphone",
     data: {
-      message: "State Listener: {{state}}",
+      message: "State Listener: {{ states.input_select.home_state.state }}",
     },
   });
 
