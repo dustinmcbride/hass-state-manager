@@ -96,9 +96,9 @@ export const dayTypeConfig = {
 };
 
 export default {
-  dayTypeConfigEntity,
-  dayTypeMap,
-  homeStateEntity,
-  homeStateMap,
-  dayTypeConfig
+    dayTypeConfigEntity,
+    dayTypeMap,
+    homeStateEntity,
+    homeStateMap,
+    dayTypeConfig
 }

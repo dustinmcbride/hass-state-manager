@@ -1,0 +1,283 @@
+alias: "State Updater: Home State"
+description: Responsible for scheduled home state changes
+mode: single
+trigger:
+  - platform: time
+    at: input_datetime.workday_morning
+    id: input_datetime.workday_morning
+  - platform: time
+    at: 09:30:00
+    id: 09:30:00
+  - platform: time
+    at: input_datetime.workday_lunch
+    id: input_datetime.workday_lunch
+  - platform: time
+    at: input_datetime.workday_afternoon
+    id: input_datetime.workday_afternoon
+  - platform: numeric_state
+    id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+    entity_id: sun.sun
+    attribute: elevation
+    below: input_number.angle_of_sun_early_evening
+  - platform: time
+    at: 20:30:00
+    id: 20:30:00
+  - platform: time
+    at: input_datetime.non_workday
+    id: input_datetime.non_workday
+  - platform: time
+    at: input_datetime.early_morning
+    id: input_datetime.early_morning
+  - platform: time
+    at: 0:45:00
+    id: 0:45:00
+  - platform: time
+    at: 11:30:00
+    id: 11:30:00
+action:
+  - if:
+      - condition: state
+        entity_id: input_select.day_type
+        state: Work
+    then:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: input_datetime.workday_morning
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 09:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Mid-morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: input_datetime.workday_lunch
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Lunch
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: input_datetime.workday_afternoon
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Afternoon
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Early Evening
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 20:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Late Evening
+                target:
+                  entity_id: input_select.home_state
+  - if:
+      - condition: state
+        entity_id: input_select.day_type
+        state: Non Work
+    then:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: input_datetime.non_workday
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 09:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Day
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Early Evening
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 20:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Late Evening
+                target:
+                  entity_id: input_select.home_state
+  - if:
+      - condition: state
+        entity_id: input_select.day_type
+        state: Ski/Hike
+    then:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: input_datetime.early_morning
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 09:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Day
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Early Evening
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 20:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Late Evening
+                target:
+                  entity_id: input_select.home_state
+  - if:
+      - condition: state
+        entity_id: input_select.day_type
+        state: House Sitter
+    then:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: 0:45:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Go to Sleep
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: input_datetime.non_workday
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 09:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Day
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Early Evening
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 20:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Late Evening
+                target:
+                  entity_id: input_select.home_state
+  - if:
+      - condition: state
+        entity_id: input_select.day_type
+        state: Vacation
+    then:
+      - choose:
+          - conditions:
+              - condition: trigger
+                id: 11:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Go to Sleep
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: input_datetime.non_workday
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Morning
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 09:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Day
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Early Evening
+                target:
+                  entity_id: input_select.home_state
+          - conditions:
+              - condition: trigger
+                id: 20:30:00
+            sequence:
+              - service: input_select.select_option
+                data:
+                  option: Late Evening
+                target:
+                  entity_id: input_select.home_state
