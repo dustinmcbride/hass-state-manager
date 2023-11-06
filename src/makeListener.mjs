@@ -1,69 +1,73 @@
-import YAML from "yaml";
-
+import YAML from 'yaml';
+import { inputSelectName } from './utils.mjs';
 
 export default (config) => {
-   const { dayTypeMap, homeStateEntity, dayTypeConfig, dayTypeConfigEntity, homeStateMap } = config
+  const {
+    stateSelectName, dayTypeConfig, dayTypeSelectName, homeStateMap,
+  } = config;
 
-    const result = {
-      alias: "State Listener: Home State ",
-      description: "Reacts to the state updaters and runs scripts",
-      trigger: [
+  const result = {
+    alias: 'State Listener: Home State ',
+    description: 'Reacts to the state updaters and runs scripts',
+    trigger: [
+      {
+        platform: 'state',
+        // This was an array, changed to string.
+        entity_id: inputSelectName(stateSelectName),
+      },
+    ],
+    condition: [],
+    action: [],
+  };
+
+  Object.keys(dayTypeConfig).forEach((dayType) => {
+    const action = {
+      if: [
         {
-          platform: "state",
-          entity_id: [homeStateEntity],
+          condition: 'state',
+          entity_id: inputSelectName(dayTypeSelectName),
+          state: dayType,
         },
       ],
-      condition: [],
-      action: [],
+      then: [
+        {
+          choose: Object.keys(dayTypeConfig[dayType]).map(
+            (stateChangeId) => {
+              const stateChange = {
+                id: stateChangeId,
+                ...dayTypeConfig[dayType][stateChangeId],
+              };
+              return {
+                conditions: [
+                  {
+                    condition: 'state',
+                    entity_id: inputSelectName(stateSelectName),
+                    state: stateChange.id,
+                  },
+                ],
+                sequence: [
+                  { service: `script.${homeStateMap[stateChange.id].script}` },
+                ],
+              };
+            },
+          ),
+        },
+      ],
     };
 
-    Object.keys(dayTypeConfig.dayTypes).forEach((dayType) => {
-      const action = {
-        if: [
-          {
-            condition: "state",
-            entity_id: dayTypeConfigEntity,
-            state: dayTypeMap[dayType],
-          },
-        ],
-        then: [
-          {
-            choose: Object.keys(dayTypeConfig.dayTypes[dayType]).map(
-              (stateChangeId) => {
-                const stateChange = {
-                  id: stateChangeId,
-                  ...dayTypeConfig.dayTypes[dayType][stateChangeId],
-                };
-                return {
-                  conditions: [
-                    {
-                      condition: "state",
-                      entity_id: homeStateEntity,
-                      state: homeStateMap[stateChange.id].name,
-                    },
-                  ],
-                  sequence: [
-                    { service: `script.${homeStateMap[stateChange.id].script}` },
-                  ],
-                };
-              }
-            ),
-          },
-        ],
-      };
+    result.action.push(action);
+  });
 
-      result.action.push(action);
-    });
+  // Make configurable
+  result.action.push({
+    service: 'notify.mobile_app_dustin_iphone',
+    data: {
+      message: 'State Listener: {{ states.input_select.home_state.state }}',
+    },
+  });
 
-    result.action.push({
-      service: "notify.mobile_app_dustin_iphone",
-      data: {
-        message: "State Listener: {{ states.input_select.home_state.state }}",
-      },
-    });
+  const doc = new YAML.Document();
+  doc.contents = result;
 
-    const doc = new YAML.Document();
-    doc.contents = result;
-
-    return doc.toString();
-  };
+  return doc.toString();
+};

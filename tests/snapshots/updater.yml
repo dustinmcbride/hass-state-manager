@@ -15,7 +15,7 @@ trigger:
     at: input_datetime.workday_afternoon
     id: input_datetime.workday_afternoon
   - platform: numeric_state
-    id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+    id: angle_of_sun_early_evening
     entity_id: sun.sun
     attribute: elevation
     below: input_number.angle_of_sun_early_evening
@@ -79,7 +79,7 @@ action:
                   entity_id: input_select.home_state
           - conditions:
               - condition: trigger
-                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+                id: angle_of_sun_early_evening
             sequence:
               - service: input_select.select_option
                 data:
@@ -121,7 +121,7 @@ action:
                   entity_id: input_select.home_state
           - conditions:
               - condition: trigger
-                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+                id: angle_of_sun_early_evening
             sequence:
               - service: input_select.select_option
                 data:
@@ -163,7 +163,7 @@ action:
                   entity_id: input_select.home_state
           - conditions:
               - condition: trigger
-                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+                id: angle_of_sun_early_evening
             sequence:
               - service: input_select.select_option
                 data:
@@ -214,7 +214,7 @@ action:
                   entity_id: input_select.home_state
           - conditions:
               - condition: trigger
-                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+                id: angle_of_sun_early_evening
             sequence:
               - service: input_select.select_option
                 data:
@@ -265,7 +265,7 @@ action:
                   entity_id: input_select.home_state
           - conditions:
               - condition: trigger
-                id: 25bc5ccb046c8c81f6bb7ee21b6e00dd
+                id: angle_of_sun_early_evening
             sequence:
               - service: input_select.select_option
                 data:

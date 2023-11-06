@@ -1,104 +1,93 @@
+/* eslint-disable quote-props */
 
-// Create a input select in home assistant with this name
-export const dayTypeConfigEntity = "input_select.day_type";
+// The name of your Day Type input select to be created in home assistant
+export const dayTypeSelectName = 'Day Type';
 
-// Add these options to the input select above
-export const dayTypeMap = {
-  work: "Work",
-  nonWork: "Non Work",
-  skiHike: "Ski/Hike",
-  houseSitter: "House Sitter",
-  vacation: "Vacation",
+// The name of your State input select to be created in home assistant
+export const stateSelectName = 'Home State';
+
+// Create a map of your homes states to the scripts that should be run
+const homeStateMap = {
+  'Morning': { script: 'morning' },
+  'Mid-morning': { script: 'home_state_midmorning' },
+  'Day': { script: 'home_state_day' },
+  'Lunch': { script: 'home_state_lunch' },
+  'Afternoon': { script: 'home_state_afternoon' },
+  'Early Evening': { script: 'home_state_early_evening' },
+  'Late Evening': { script: 'home_state_late_evening' },
+  'Dinner': { script: 'home_state_dinner' },
+  'Dishes': { script: 'home_state_dishes' },
+  'Get Ready For Bed': { script: 'home_state_get_ready_for_bed' },
+  'Go to Sleep': { script: 'home_state_go_to_sleep' },
+  'Sleeping': { script: 'home_state_sleeping' },
 };
 
-// Create a input select in home assistant with this name
-export const homeStateEntity = "input_select.home_state";
-
-// A map of the home state names to the script to run when the state changes
-export const homeStateMap = {
-  morning: { name: "Morning", script: "morning" },
-  midMorning: { name: "Mid-morning", script: "home_state_midmorning" },
-  day: { name: "Day", script: "home_state_day" },
-  lunch: { name: "Lunch", script: "home_state_lunch" },
-  afternoon: { name: "Afternoon", script: "home_state_afternoon" },
-  earlyEvening: { name: "Early Evening", script: "home_state_early_evening" },
-  lateEvening: { name: "Late Evening", script: "home_state_late_evening" },
-  dinner: { name: "Dinner", script: "home_state_dinner" },
-  dishes: { name: "Dishes", script: "home_state_dishes" },
-  getReadyForBed: {
-    name: "Get Ready For Bed",
-    script: "home_state_get_ready_for_bed",
-  },
-  goToSleep: { name: "Go to Sleep", script: "home_state_go_to_sleep" },
-  sleeping: { name: "Sleeping", script: "home_state_sleeping" },
-};
-
+// Custom Trigger
 const earlyEveningTrigger = {
-  platform: "numeric_state",
-  id: "early_evening",
-  entity_id: "sun.sun",
-  attribute: "elevation",
-  below: "input_number.angle_of_sun_early_evening",
+  platform: 'numeric_state',
+  id: 'early_evening',
+  entity_id: 'sun.sun',
+  attribute: 'elevation',
+  below: 'input_number.angle_of_sun_early_evening',
+  triggerId: 'angle_of_sun_early_evening',
 };
 
 // These are state that are triggered by buttons
 const sharedStates = {
-  dinner: { trigger: null },
-  dishes: { trigger: null },
-  getReadyForBed: { trigger: null },
-  goToSleep: { trigger: null },
-  sleeping: { trigger: null },
+  'Dinner': { trigger: null },
+  'Dishes': { trigger: null },
+  'Get Ready For Bed': { trigger: null },
+  'Go to Sleep': { trigger: null },
+  'Sleeping': { trigger: null },
 };
 
-// A map of the day types with each state of the day mapped to the trigger of when to change to specifyed state
+// A map of the day types with each state of the day mapped to the trigger
+// of when to change to specifyed state
 export const dayTypeConfig = {
-  dayTypes: {
-    work: {
-      ...sharedStates,
-      morning: { trigger: "input_datetime.workday_morning" },
-      midMorning: { trigger: "09:30:00" },
-      lunch: { trigger: "input_datetime.workday_lunch" },
-      afternoon: { trigger: "input_datetime.workday_afternoon" },
-      earlyEvening: { trigger: earlyEveningTrigger },
-      lateEvening: { trigger: "20:30:00" },
-    },
-    nonWork: {
-      ...sharedStates,
-      morning: { trigger: "input_datetime.non_workday" },
-      day: { trigger: "09:30:00" },
-      earlyEvening: { trigger: earlyEveningTrigger },
-      lateEvening: { trigger: "20:30:00" },
-    },
-    skiHike: {
-      ...sharedStates,
-      morning: { trigger: "input_datetime.early_morning" },
-      day: { trigger: "09:30:00" },
-      earlyEvening: { trigger: earlyEveningTrigger },
-      lateEvening: { trigger: "20:30:00" },
-    },
-    houseSitter: {
-      ...sharedStates,
-      morning: { trigger: "input_datetime.non_workday" },
-      day: { trigger: "09:30:00" },
-      earlyEvening: { trigger: earlyEveningTrigger },
-      lateEvening: { trigger: "20:30:00" },
-      goToSleep: { trigger: "0:45:00" },
-    },
-    vacation: {
-      ...sharedStates,
-      morning: { trigger: "input_datetime.non_workday" },
-      day: { trigger: "09:30:00" },
-      earlyEvening: { trigger: earlyEveningTrigger },
-      lateEvening: { trigger: "20:30:00" },
-      goToSleep: { trigger: "11:30:00" },
-    },
+  'Work': {
+    ...sharedStates,
+    'Morning': { trigger: 'input_datetime.workday_morning' },
+    'Mid-morning': { trigger: '09:30:00' },
+    'Lunch': { trigger: 'input_datetime.workday_lunch' },
+    'Afternoon': { trigger: 'input_datetime.workday_afternoon' },
+    'Early Evening': { trigger: earlyEveningTrigger },
+    'Late Evening': { trigger: '20:30:00' },
+  },
+  'Non Work': {
+    ...sharedStates,
+    'Morning': { trigger: 'input_datetime.non_workday' },
+    'Day': { trigger: '09:30:00' },
+    'Early Evening': { trigger: earlyEveningTrigger },
+    'Late Evening': { trigger: '20:30:00' },
+  },
+  'Ski/Hike': {
+    ...sharedStates,
+    'Morning': { trigger: 'input_datetime.early_morning' },
+    'Day': { trigger: '09:30:00' },
+    'Early Evening': { trigger: earlyEveningTrigger },
+    'Late Evening': { trigger: '20:30:00' },
+  },
+  'House Sitter': {
+    ...sharedStates,
+    'Morning': { trigger: 'input_datetime.non_workday' },
+    'Day': { trigger: '09:30:00' },
+    'Early Evening': { trigger: earlyEveningTrigger },
+    'Late Evening': { trigger: '20:30:00' },
+    'Go to Sleep': { trigger: '0:45:00' },
+  },
+  'Vacation': {
+    ...sharedStates,
+    'Morning': { trigger: 'input_datetime.non_workday' },
+    'Day': { trigger: '09:30:00' },
+    'Early Evening': { trigger: earlyEveningTrigger },
+    'Late Evening': { trigger: '20:30:00' },
+    'Go to Sleep': { trigger: '11:30:00' },
   },
 };
 
 export default {
-  dayTypeConfigEntity,
-  dayTypeMap,
-  homeStateEntity,
+  dayTypeSelectName,
+  stateSelectName,
   homeStateMap,
-  dayTypeConfig
-}
+  dayTypeConfig,
+};

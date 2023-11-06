@@ -1,6 +1,6 @@
-# hass-state-machine
+# hass-state-manager
 
-A tool for creating a lightweight "state machine" in Home Assistant
+A tool for managing
 
 ## How does this work?
 The concept for this lightweight "state machine" is that your Home should move through various states throughout the day. Wake Up -> Morning -> Afternoon... In addition, there should be different day types (work, non-work, vacation) that follow different states and schedules. Lastly, common triggers for state and the automation for state should be easily shared and configured.
