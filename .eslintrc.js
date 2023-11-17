@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   plugins: ["jasmine"],
-  extends: 'airbnb-base',
+  extends: ['airbnb-base', '"plugin:prettier/recommended"'],
   overrides: [
     {
       env: {

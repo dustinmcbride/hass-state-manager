@@ -1,33 +1,32 @@
-import config from "../config.mjs";
-import makeStateListener  from "./makeListener.mjs";
+import config from "../config2.mjs";
+import makeStateListener from "./makeListener.mjs";
 import makeStateUpdater from "./makeUpdater.mjs";
 import makeInputSelects from "./makeInputSelects.mjs";
-import fs from 'fs';
+import YAML from "yaml";
 
+const commandLineArg = process.argv[2];
 
-const listener = makeStateListener(config);
-const updater = makeStateUpdater(config);
-const inputSelects = makeInputSelects(config);
+if (["-h", "--help", "help"].includes(commandLineArg)) {
+  console.log(`
+    Usage:
+    make [  selects | automations | help ]
+  `);
+  exit();
+}
 
-const output = `
-#
-# Start of listener
-#
+const doc = new YAML.Document();
 
-${listener}
+if (commandLineArg === "automations") {
+  const listener = makeStateListener(config);
+  const updater = makeStateUpdater(config);
+  doc.contents = [listener, updater];
+}
 
-#
-# Start of updater
-#
+if (commandLineArg === "selects") {
+  const inputSelects = makeInputSelects(config);
+  doc.contents = inputSelects;
+}
 
-${updater}
-
-#
-# Start of input selects
-#
-
-${inputSelects}
-`
-fs.writeFileSync('./state_manager.yml', output);
-
-console.log(output);
+console.log(
+  doc.toString({ defaultStringType: "QUOTE_SINGLE", defaultKeyType: "PLAIN" })
+);

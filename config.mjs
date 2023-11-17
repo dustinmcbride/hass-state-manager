@@ -73,7 +73,7 @@ export const dayTypeConfig = {
     'Day': { trigger: '09:30:00' },
     'Early Evening': { trigger: earlyEveningTrigger },
     'Late Evening': { trigger: '20:30:00' },
-    'Go to Sleep': { trigger: '0:45:00' },
+    'Go to Sleep': { trigger: '00:45:00' },
   },
   'Vacation': {
     ...sharedStates,
@@ -81,7 +81,7 @@ export const dayTypeConfig = {
     'Day': { trigger: '09:30:00' },
     'Early Evening': { trigger: earlyEveningTrigger },
     'Late Evening': { trigger: '20:30:00' },
-    'Go to Sleep': { trigger: '11:30:00' },
+    'Go to Sleep': { trigger: '22:45' },
   },
 };
 

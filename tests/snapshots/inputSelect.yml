@@ -1,24 +1,23 @@
-input_select:
-  day_type:
-    name: Day Type
-    options:
-      - Work
-      - Non Work
-      - Ski/Hike
-      - House Sitter
-      - Vacation
-  home_state:
-    name: Home State
-    options:
-      - Morning
-      - Mid-morning
-      - Day
-      - Lunch
-      - Afternoon
-      - Early Evening
-      - Late Evening
-      - Dinner
-      - Dishes
-      - Get Ready For Bed
-      - Go to Sleep
-      - Sleeping
+day_type:
+  name: Day Type
+  options:
+    - Work
+    - Non Work
+    - Ski/Hike
+    - House Sitter
+    - Vacation
+home_state:
+  name: Home State
+  options:
+    - Morning
+    - Mid-morning
+    - Day
+    - Lunch
+    - Afternoon
+    - Early Evening
+    - Late Evening
+    - Dinner
+    - Dishes
+    - Get Ready For Bed
+    - Go to Sleep
+    - Sleeping

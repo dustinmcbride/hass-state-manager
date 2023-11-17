@@ -28,7 +28,8 @@ function makeTrigger(stateChangeConfig) {
 export default (config) => {
   const { dayTypeConfig, dayTypeSelectName, stateSelectName } = config;
   const results = {
-    alias: 'State Updater: Home State',
+    alias: `State Updater: ${stateSelectName}`,
+    id: `State Updater: ${stateSelectName}`,
     description: 'Responsible for scheduled home state changes',
     mode: 'single',
     trigger: [],
@@ -103,5 +104,5 @@ export default (config) => {
   const doc = new YAML.Document();
   doc.contents = results;
 
-  return doc.toString();
+  return doc
 };

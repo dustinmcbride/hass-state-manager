@@ -29,11 +29,11 @@ trigger:
     at: input_datetime.early_morning
     id: input_datetime.early_morning
   - platform: time
-    at: 0:45:00
-    id: 0:45:00
+    at: 00:45:00
+    id: 00:45:00
   - platform: time
-    at: 11:30:00
-    id: 11:30:00
+    at: 22:45:00
+    id: 22:45:00
 action:
   - if:
       - condition: state
@@ -187,7 +187,7 @@ action:
       - choose:
           - conditions:
               - condition: trigger
-                id: 0:45:00
+                id: 00:45:00
             sequence:
               - service: input_select.select_option
                 data:
@@ -238,7 +238,7 @@ action:
       - choose:
           - conditions:
               - condition: trigger
-                id: 11:30:00
+                id: 22:45:00
             sequence:
               - service: input_select.select_option
                 data:

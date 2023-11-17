@@ -1,10 +1,9 @@
 /* eslint-disable quote-props */
 
-
-// Create a input select in home assistant with this name
+// The name of your Day Type input select to be created in home assistant
 export const dayTypeSelectName = 'Day Type';
 
-// Create a input select in home assistant with this name
+// The name of your State input select to be created in home assistant
 export const stateSelectName = 'Home State';
 
 // Create a map of your homes states to the scripts that should be run
@@ -74,7 +73,7 @@ export const dayTypeConfig = {
     'Day': { trigger: '09:30:00' },
     'Early Evening': { trigger: earlyEveningTrigger },
     'Late Evening': { trigger: '20:30:00' },
-    'Go to Sleep': { trigger: '0:45:00' },
+    'Go to Sleep': { trigger: '00:45:00' },
   },
   'Vacation': {
     ...sharedStates,
@@ -82,7 +81,7 @@ export const dayTypeConfig = {
     'Day': { trigger: '09:30:00' },
     'Early Evening': { trigger: earlyEveningTrigger },
     'Late Evening': { trigger: '20:30:00' },
-    'Go to Sleep': { trigger: '11:30:00' },
+    'Go to Sleep': { trigger: '22:45:00' },
   },
 };
 

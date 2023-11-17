@@ -7,7 +7,8 @@ export default (config) => {
   } = config;
 
   const result = {
-    alias: 'State Listener: Home State ',
+    alias: `State Listener: ${stateSelectName}`,
+    id: `State Listener: ${stateSelectName}`,
     description: 'Reacts to the state updaters and runs scripts',
     trigger: [
       {
@@ -69,5 +70,5 @@ export default (config) => {
   const doc = new YAML.Document();
   doc.contents = result;
 
-  return doc.toString();
+  return doc
 };

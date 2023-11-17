@@ -16,11 +16,11 @@ export default (config) => {
   ];
 
   const result = {
-    input_select: {},
+    // input_select: {},
   };
 
   selects.forEach(({ name, options }) => {
-    result.input_select[toSnakeCase(name)] = {
+    result[toSnakeCase(name)] = {
       name, options,
     };
   });
@@ -28,5 +28,5 @@ export default (config) => {
   const doc = new YAML.Document();
   doc.contents = result;
 
-  return doc.toString();
+  return doc
 };

@@ -1,4 +1,4 @@
-alias: "State Listener: Home State "
+alias: "State Listener: Home State"
 description: Reacts to the state updaters and runs scripts
 trigger:
   - platform: state
